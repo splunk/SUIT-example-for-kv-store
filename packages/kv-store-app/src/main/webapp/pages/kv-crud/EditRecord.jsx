@@ -7,17 +7,19 @@ import Text from '@splunk/react-ui/Text';
 import Modal from '@splunk/react-ui/Modal';
 
 const EditRecord = ({ remove, update, openState, onClose, selectedRow }) => {
-    const [newName, setNewName] = useState();
-    const [newOwner, setNewOwner] = useState();
+    // pass in the remove and update functions as props
+    const [newField1, setNewField1] = useState();
+    const [newField2, setNewField2] = useState();
 
     const deleteRepo = () => {
+        // delete the record and close the modal
         remove(selectedRow._key);
         onClose();
     };
 
     const updateRepo = () => {
-        const currentRow = { ...selectedRow, field1: newName, field2: newOwner }; // for some reason I needed to do this and I couldn't store in state
-        console.log('inside function', currentRow);
+        // update the record and close the modal
+        const currentRow = { ...selectedRow, field1: newField1, field2: newField2 }; // for some reason I needed to do this and I couldn't store in state
         update(selectedRow._key, currentRow);
         onClose();
     };
@@ -41,20 +43,18 @@ const EditRecord = ({ remove, update, openState, onClose, selectedRow }) => {
                             </Table.Row>
                         </Table.Body>
                     </Table>{' '}
-                    <Heading level={4}>Enter Repo Name</Heading>
+                    <Heading level={4}>Enter field1 Value</Heading>
                     <Text
-                        canClear
-                        value={newName}
+                        value={newField1}
                         onChange={(e) => {
-                            setNewName(e.target.value);
+                            setNewField1(e.target.value);
                         }}
                     />
-                    <Heading level={4}>Enter Repo Owner</Heading>
+                    <Heading level={4}>Enter field2 Value</Heading>
                     <Text
-                        canClear
-                        value={newOwner}
+                        value={newField2}
                         onChange={(e) => {
-                            setNewOwner(e.target.value);
+                            setNewField2(e.target.value);
                         }}
                     />
                 </Modal.Body>

@@ -2,15 +2,15 @@ import React from 'react';
 import layout from '@splunk/react-page';
 import SplunkThemeProvider from '@splunk/themes/SplunkThemeProvider';
 
-import KVTable from './KVTable';
+import CollectionViewer from './CollectionViewer';
 
 layout(
     <SplunkThemeProvider {...{ colorScheme: 'light', family: 'prisma' }}>
-        <KVTable />
+        <CollectionViewer />
     </SplunkThemeProvider>,
     {
-        pageTitle: 'KV CRUD',
+        pageTitle: 'Collection Viewer',
         hideFooter: true,
-        layout: 'fixed',
+        layout: 'scrolling',
     }
 );

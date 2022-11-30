@@ -3,7 +3,6 @@ import SplunkThemeProvider from '@splunk/themes/SplunkThemeProvider';
 import { _ } from '@splunk/ui-utils/i18n';
 import Table from '@splunk/react-ui/Table';
 import Button from '@splunk/react-ui/Button';
-import Message from '@splunk/react-ui/Message';
 import Tooltip from '@splunk/react-ui/Tooltip';
 import Text from '@splunk/react-ui/Text';
 import Pencil from '@splunk/react-icons/Pencil';
@@ -11,7 +10,6 @@ import * as config from '@splunk/splunk-utils/config';
 import { createRESTURL } from '@splunk/splunk-utils/url';
 import { handleError, handleResponse, defaultFetchInit } from '@splunk/splunk-utils/fetch';
 import EditRecord from './EditRecord';
-// import AddRecord from './AddRecord';
 
 const themeToVariant = {
     prisma: { colorScheme: 'light', family: 'prisma' },
@@ -24,7 +22,7 @@ const kvUrl = createRESTURL(`storage/collections/data/my_collection`, {
 
 async function updateRecord(key, value) {
     // update the KV record for the key that is selected
-    //  console.log('value from modal in REST call', value);
+
     const fetchInit = defaultFetchInit;
     fetchInit.method = 'POST';
     const n = await fetch(`${kvUrl}/${key}`, {
@@ -43,8 +41,8 @@ async function updateRecord(key, value) {
 }
 
 async function deleteRecord(key) {
-    // update the KV record for the key that is selected
-    //  console.log('value from modal in REST call', value);
+    // delete the KV record for the key that is selected
+
     const fetchInit = defaultFetchInit;
     fetchInit.method = 'DELETE';
     const n = await fetch(`${kvUrl}/${key}`, {
@@ -62,7 +60,8 @@ async function deleteRecord(key) {
 }
 
 async function addNewRecord(value) {
-    //  console.log('value from modal in REST call', value);
+    // add a new record with the entered data from the user
+
     const fetchInit = defaultFetchInit;
     fetchInit.method = 'POST';
     const n = await fetch(`${kvUrl}`, {
@@ -99,51 +98,52 @@ async function readCollection() {
 }
 
 const KVTable = () => {
+    // initialize the state for the shown table, modal, clicked row, and entries
     const [dataTable, setData] = useState([]);
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState({});
-    const [recordField1, setField1] = useState();
-    const [recordField2, setField2] = useState();
-    // const [validEntry, setValid] = useState(false);
-
-    console.log(recordField1, recordField2);
+    const [recordField1, setField1] = useState('');
+    const [recordField2, setField2] = useState('');
 
     const handleRequestOpen = (e, data) => {
+        // handles what happens when modal is open
         setOpen(true);
-        setSelected(data);
-        console.log('raw data', data);
+        setSelected(data); // indicate which row we clicked on
     };
 
     const handleRequestClose = () => {
+        // handles what happens when modal is closed
         setOpen(false);
         // modalToggle?.current?.focus(); // Must return focus to the invoking element when the modal closes
     };
 
     const handleAdditionalRecord = () => {
-        if (recordField1 !== undefined && recordField2 !== undefined) {
-            addNewRecord({ field1: recordField1, field2: recordField2 });
-            readCollection().then((n) => setData(n));
+        if (recordField1 !== '' && recordField2 !== '') {
+            // very basic validity check, a more robust one may have more conditions
+            addNewRecord({ field1: recordField1, field2: recordField2 }); // send this data to be created to a new record
+            readCollection().then((n) => setData(n)); // read the collection again so that the table refreshes
         }
     };
 
     useEffect(() => {
-        readCollection().then((n) => setData(n));
+        readCollection().then((n) => setData(n)); // on first render, we want to read the collection and then set the table to it
     }, [open]);
 
     const buttonStyle = {
         padding: '10px',
     };
 
-    const primaryActions = (
-        <Tooltip
-            content={_('Edit')}
-            contentRelationship="label"
-            onClick={handleRequestOpen}
-            style={{ marginRight: 8 }}
-        >
-            <Button appearance="secondary" icon={<Pencil hideDefaultTooltip />} />
-        </Tooltip>
-    );
+    const primaryActions = // adding row actions to our table
+        (
+            <Tooltip
+                content={_('Edit')}
+                contentRelationship="label"
+                onClick={handleRequestOpen}
+                style={{ marginRight: 8 }}
+            >
+                <Button appearance="secondary" icon={<Pencil hideDefaultTooltip />} />
+            </Tooltip>
+        );
 
     return (
         <div>
@@ -152,32 +152,25 @@ const KVTable = () => {
                     <div style={buttonStyle}>
                         <Text
                             inline
-                            canClear
+                            // canClear
                             value={recordField1}
                             onChange={(e) => {
                                 setField1(e.target.value);
                             }}
-                            placeholder="Field 1 Value"
                         />
                         <Text
                             inline
-                            canClear
+                            // canClear
                             value={recordField2}
                             onChange={(e) => {
                                 setField2(e.target.value);
                             }}
-                            placeholder="Field 2 Value"
                         />
                         <Button
                             label="Add Record"
                             appearance="primary"
                             onClick={handleAdditionalRecord}
                         />
-                        {/* {validEntry ? (
-                           
-                        ) : (
-                            <Message type="info">Enter valid values to add a new record</Message>
-                        )} */}
                     </div>
                     <div>
                         <Table stripeRows actionsColumnWidth={104}>
@@ -187,12 +180,9 @@ const KVTable = () => {
                                 <Table.HeadCell>field2</Table.HeadCell>
                             </Table.Head>
                             <Table.Body>
-                                Hello
                                 {dataTable.map((row) => (
                                     <Table.Row
                                         key={row.key}
-                                        // onClick={handleRequestOpen}
-                                        // ref={modalToggle}
                                         data={row}
                                         actionPrimary={primaryActions}
                                     >
