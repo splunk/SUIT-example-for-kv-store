@@ -28,7 +28,6 @@ async function readCollection(url) {
         .then(handleResponse(200))
         .catch(handleError('error'))
         .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
-    console.log('GET Call', n);
     return n;
 }
 
@@ -40,7 +39,6 @@ async function getApps() {
     const n = await fetch(`${appsEndpoint}?output_mode=json&count=100`, {
         ...fetchInit,
     }).then(handleResponse(200));
-
     return n;
 }
 
@@ -60,7 +58,6 @@ async function readAppCollections(endpoint) {
         .then(handleResponse(200))
         .catch(handleError('error'))
         .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
-    console.log('reading collections', n);
     return n;
 }
 
