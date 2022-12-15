@@ -17,7 +17,8 @@ getUserTheme()
                 <div>
                     <P>
                         This app showcases a simple Create, Read, Update, Delete workflow with the
-                        Splunk Enterprise KV Store. This app was created with the{' '}
+                        Splunk Enterprise KV Store, as well as the ability to view KV Store
+                        collections for other apps in your instance. This app was created with the{' '}
                         <Link to="https://splunkui.splunk.com/" openInNewContext>
                             Splunk UI Toolkit
                         </Link>
@@ -28,7 +29,7 @@ getUserTheme()
                         </Link>
                     </P>{' '}
                     <P>
-                        This app leverages the KV Store endpoints on the{' '}
+                        . This app leverages the KV Store endpoints on the{' '}
                         <Link to="https://github.com" openInNewContext>
                             Splunk Enterprise REST API
                         </Link>{' '}
@@ -59,6 +60,20 @@ getUserTheme()
                     </List>
                     <Heading>Source Code</Heading>
                     <P>The following are some key files for the implementation of this app</P>
+                    <List>
+                        <List.Item>
+                            src/main/webapp/pages/kv-crud/KVTable.jsx - The main code for the KVCRUD
+                            page
+                        </List.Item>
+                        <List.Item>
+                            src/main/webapp/pages/kv-crud/EditRecord.jsx - The modal action for
+                            editing records in the KVCRUD page
+                        </List.Item>
+                        <List.Item>
+                            src/main/webapp/pages/kv-viewer/CollectionViewer.jsx - The main code for
+                            the Collection Viewer page
+                        </List.Item>
+                    </List>
                 </div>
             </StyledContainer>,
             splunkTheme
