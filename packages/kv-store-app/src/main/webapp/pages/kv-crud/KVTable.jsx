@@ -54,8 +54,11 @@ async function deleteRecord(key) {
         },
     })
         .then(handleResponse(200))
-        .catch(handleError('error'))
-        .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
+        .catch(() => {
+            handleError('error');
+            console.log('error');
+        });
+
     return n;
 }
 
@@ -74,9 +77,8 @@ async function addNewRecord(value) {
         },
         body: JSON.stringify(value),
     })
-        .then(handleResponse(200))
-        .catch(handleError('error'))
-        .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
+        .then(handleResponse(201))
+        .catch(handleError('error'));
     return n;
 }
 

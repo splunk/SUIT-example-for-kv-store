@@ -16,7 +16,6 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.2.0",
-    "@splunk/kv-component": "^0.0.1",
     "@splunk/babel-preset": "^3.0.0",
     "@splunk/eslint-config": "^4.0.0",
     "@splunk/react-page": "^6.0.2",
