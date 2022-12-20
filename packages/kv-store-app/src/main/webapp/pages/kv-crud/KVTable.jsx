@@ -61,7 +61,8 @@ async function deleteRecord(key) {
 
 async function addNewRecord(value) {
     // add a new record with the entered data from the user
-
+    // adding record
+    console.log('in add record');
     const fetchInit = defaultFetchInit;
     fetchInit.method = 'POST';
     const n = await fetch(`${kvUrl}`, {
@@ -81,6 +82,7 @@ async function addNewRecord(value) {
 
 async function readCollection() {
     // read in theKV store collection of interest
+    console.log('read collection');
     const fetchInit = defaultFetchInit; // from splunk-utils API
     fetchInit.method = 'GET';
     const n = await fetch(kvUrl, {
@@ -105,6 +107,9 @@ const KVTable = () => {
     const [recordField1, setField1] = useState('');
     const [recordField2, setField2] = useState('');
 
+    console.log(dataTable);
+    console.log('test');
+
     const handleRequestOpen = (e, data) => {
         // handles what happens when modal is open
         setOpen(true);
@@ -120,13 +125,24 @@ const KVTable = () => {
     const handleAdditionalRecord = () => {
         if (recordField1 !== '' && recordField2 !== '') {
             // very basic validity check, a more robust one may have more conditions
-            addNewRecord({ field1: recordField1, field2: recordField2 }); // send this data to be created to a new record
-            readCollection().then((n) => setData(n)); // read the collection again so that the table refreshes
+            addNewRecord({ field1: recordField1, field2: recordField2 }).then((n) => {
+                console.log(n);
+                readCollection().then((g) => {
+                    console.log(g);
+                    console.log('added record');
+                    setData(g);
+                });
+            }); // send this data to be created to a new record
         }
     };
 
     useEffect(() => {
-        readCollection().then((n) => setData(n)); // on first render, we want to read the collection and then set the table to it
+        console.log('in effect');
+        readCollection().then((n) => {
+            console.log(n);
+            console.log('reading kv');
+            setData(n);
+        }); // on first render, we want to read the collection and then set the table to it
     }, [open]);
 
     const buttonStyle = {
