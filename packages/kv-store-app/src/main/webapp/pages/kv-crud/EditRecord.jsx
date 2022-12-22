@@ -8,8 +8,8 @@ import Modal from '@splunk/react-ui/Modal';
 
 const EditRecord = ({ remove, update, openState, onClose, selectedRow }) => {
     // pass in the remove and update functions as props
-    const [newField1, setNewField1] = useState();
-    const [newField2, setNewField2] = useState();
+    const [newField1, setNewField1] = useState('');
+    const [newField2, setNewField2] = useState('');
 
     const deleteRepo = () => {
         // delete the record and close the modal
@@ -21,6 +21,8 @@ const EditRecord = ({ remove, update, openState, onClose, selectedRow }) => {
         // update the record and close the modal
         const currentRow = { ...selectedRow, field1: newField1, field2: newField2 }; // for some reason I needed to do this and I couldn't store in state
         update(selectedRow._key, currentRow);
+        setNewField1('');
+        setNewField2('');
         onClose();
     };
 

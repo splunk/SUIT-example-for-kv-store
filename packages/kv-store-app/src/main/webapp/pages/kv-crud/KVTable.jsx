@@ -54,13 +54,16 @@ async function deleteRecord(key) {
         },
     })
         .then(handleResponse(200))
-        .catch(handleError('error'))
-        .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
+        .catch(() => {
+            handleError('error');
+        });
+
     return n;
 }
 
 async function addNewRecord(value) {
     // add a new record with the entered data from the user
+    // adding record
 
     const fetchInit = defaultFetchInit;
     fetchInit.method = 'POST';
@@ -73,14 +76,14 @@ async function addNewRecord(value) {
         },
         body: JSON.stringify(value),
     })
-        .then(handleResponse(200))
-        .catch(handleError('error'))
-        .catch((err) => (err instanceof Object ? 'error' : err)); // handleError sometimes returns an Object;
+        .then(handleResponse(201))
+        .catch(handleError('error'));
     return n;
 }
 
 async function readCollection() {
     // read in theKV store collection of interest
+
     const fetchInit = defaultFetchInit; // from splunk-utils API
     fetchInit.method = 'GET';
     const n = await fetch(kvUrl, {
@@ -120,12 +123,18 @@ const KVTable = () => {
     const handleAdditionalRecord = () => {
         if (recordField1 !== '' && recordField2 !== '') {
             // very basic validity check, a more robust one may have more conditions
-            addNewRecord({ field1: recordField1, field2: recordField2 }); // send this data to be created to a new record
-            readCollection().then((n) => setData(n)); // read the collection again so that the table refreshes
+            addNewRecord({ field1: recordField1, field2: recordField2 }).then(() => {
+                readCollection().then((n) => {
+                    setData(n);
+                });
+            }); // send this data to be created to a new record
         }
+        setField1('');
+        setField2('');
     };
 
     useEffect(() => {
+        console.log('in effect');
         readCollection().then((n) => setData(n)); // on first render, we want to read the collection and then set the table to it
     }, [open]);
 
@@ -152,19 +161,19 @@ const KVTable = () => {
                     <div style={buttonStyle}>
                         <Text
                             inline
-                            // canClear
                             value={recordField1}
                             onChange={(e) => {
                                 setField1(e.target.value);
                             }}
+                            placeholder="Field 1"
                         />
                         <Text
                             inline
-                            // canClear
                             value={recordField2}
                             onChange={(e) => {
                                 setField2(e.target.value);
                             }}
+                            placeholder="Field 2"
                         />
                         <Button
                             label="Add Record"

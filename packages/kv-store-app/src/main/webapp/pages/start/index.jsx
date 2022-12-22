@@ -24,17 +24,23 @@ getUserTheme()
                         </Link>
                         . This app can be cloned, forked, or copied for your own use by seeing the
                         source code on{' '}
-                        <Link to="https://github.com" openInNewContext>
+                        <Link
+                            to="https://github.com/splunk/SUIT-example-for-kv-store"
+                            openInNewContext
+                        >
                             Github
                         </Link>
                     </P>{' '}
                     <P>
                         . This app leverages the KV Store endpoints on the{' '}
-                        <Link to="https://github.com" openInNewContext>
+                        <Link
+                            to="https://docs.splunk.com/Documentation/Splunk/9.0.3/RESTREF/RESTkvstore"
+                            openInNewContext
+                        >
                             Splunk Enterprise REST API
                         </Link>{' '}
                         and the{' '}
-                        <Link to="https://github.com" openInNewContext>
+                        <Link to="https://splunkui.splunk.com/Packages/ui-utils/" openInNewContext>
                             Splunk Utils
                         </Link>{' '}
                         package from the Splunk UI Toolkit to interact with those endpoints. THe
