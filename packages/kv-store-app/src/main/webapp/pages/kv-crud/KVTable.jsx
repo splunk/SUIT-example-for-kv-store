@@ -134,7 +134,6 @@ const KVTable = () => {
     };
 
     useEffect(() => {
-        console.log('in effect');
         readCollection().then((n) => setData(n)); // on first render, we want to read the collection and then set the table to it
     }, [open]);
 
@@ -209,11 +208,6 @@ const KVTable = () => {
                             onClose={handleRequestClose}
                             selectedRow={selected}
                         />
-                        {/* <AddRecord
-                            addRecord={addNewRecord}
-                            openState={additionalOpen}
-                            onClose={handleRequestClose}
-                        /> */}
                     </div>
                 </div>
             </SplunkThemeProvider>
